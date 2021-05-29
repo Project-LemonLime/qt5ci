@@ -15,6 +15,7 @@ jobs:
     - name: Get Qt 5 Patched
       run : |
         git clone -b kde/5.15 https://invent.kde.org/qt/qt/qt5.git --recursive --depth=1 
+    - uses: ilammy/msvc-dev-cmd@v1
     - name: Configure
       run: |
         cd qt5
