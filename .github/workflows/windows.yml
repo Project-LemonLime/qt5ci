@@ -18,7 +18,7 @@ jobs:
     - name: Configure
       run: |
         cd qt5
-        ./configure -prefix ..\qt -opensource -nomake tests -confirm-license -nomake examples
+        ./configure -prefix ..\qt -opensource -nomake tests -confirm-license -nomake examples -platform win32-msvc
     - name: Build
       run: |
         choco install jom
