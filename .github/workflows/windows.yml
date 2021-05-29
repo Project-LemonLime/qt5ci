@@ -19,7 +19,7 @@ jobs:
     - name: Configure
       run: |
         cd qt5
-        ./configure -prefix ..\qt -opensource -nomake tests -confirm-license -nomake examples -platform win32-msvc
+        ./configure -prefix ..\qt -opensource -nomake tests -confirm-license -nomake examples -platform win32-msvc -skip qtwebengine -skip qtandroidextras -skip qt3d -skip qtcanvas3d -skip qtcharts -skip qtconnectivity -skip qtdatavis3d  -skip qtgamepad -skip qtsensors -skip qtserialbus -skip qtserialport -skip qtspeech -skip qtwebchannel -skip qtwebengine -skip qtwebsockets -skip qtwebview -skip qtvirtualkeyboard -skip qtdeclarative
     - name: Build
       run: |
         choco install jom
