@@ -1,0 +1,32 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - name: Get Qt 5 Patched
+      run : |
+        git clone https://invent.kde.org/qt/qt/qt5.git
+    - name: configure
+      run: |
+        cd qt5
+        ./configure -prefix ..\qtbase
+        cmake --build . -G Ninja
+    - name: Pack
+      shell: pwsh
+      run: |
+        Compress-Archive -Path .\qt\ qt.zip
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2.2.2
+      with:
+        path: .\qt.zip
+    - name: make distcheck
+      run: make distcheck
