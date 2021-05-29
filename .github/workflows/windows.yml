@@ -14,7 +14,7 @@ jobs:
     steps:
     - name: Get Qt 5 Patched
       run : |
-        git --depth=1 clone -b kde/5.15 https://invent.kde.org/qt/qt/qt5.git --recursive
+        git clone -b kde/5.15 https://invent.kde.org/qt/qt/qt5.git --recursive --depth=1 
     - name: Configure
       run: |
         cd qt5
