@@ -14,12 +14,16 @@ jobs:
     steps:
     - name: Get Qt 5 Patched
       run : |
-        git clone https://invent.kde.org/qt/qt/qt5.git --recursive
-    - name: configure
+        git -b kde/5.15 --depth=1 clone https://invent.kde.org/qt/qt/qt5.git --recursive
+    - name: Configure
       run: |
         cd qt5
-        ./configure -prefix ..\qtbase
-        cmake --build . -G Ninja
+        ./configure -prefix ..\qt -opensource -nomake tests -confirm-license -nomake examples
+    - name: Build
+      run: |
+        choco install jom
+        cd qt5
+        jom 
     - name: Pack
       shell: pwsh
       run: |
