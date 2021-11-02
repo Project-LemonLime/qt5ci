@@ -1,0 +1,32 @@
+name: Windows
+
+on:
+  workflow_dispatch:
+    
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+
+    steps:
+    - name: Get Qt 5 Patched
+      run : |
+        git clone -b kde/5.15 https://invent.kde.org/qt/qt/qt5.git --recursive --depth=1
+    - name: Configure
+      run: |
+        cd qt5
+        ./configure -static -prefix ..\qt -opensource -nomake tests -confirm-license -nomake examples -skip qtwebengine -skip qtandroidextras -skip qt3d -skip qtcanvas3d -skip qtcharts -skip qtconnectivity -skip qtdatavis3d  -skip qtgamepad -skip qtsensors -skip qtserialbus -skip qtserialport -skip qtspeech -skip qtwebchannel -skip qtwebengine -skip qtwebsockets -skip qtwebview -skip qtvirtualkeyboard -skip qtdeclarative -release
+    - name: Build
+      run: |
+        make module-qtbase
+        make modult-qtsvg
+        make module-qtbase-install_subtargets
+        make module-qtsvg-install_subtargets
+    - name: Pack
+      run: |
+        tar czvf .\qt\ qt.tar.gz
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2.2.2
+      with:
+        path: .\qt.tar.gz
