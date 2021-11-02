@@ -23,7 +23,7 @@ jobs:
     - name: Configure
       run: |
         cd qt5
-        ./configure -static -prefix ../qt -opensource -nomake tests -confirm-license -nomake examples -release -no-icu -no-xcb 
+        ./configure -static -prefix ../qt -opensource -nomake tests -confirm-license -nomake examples -release -no-icu -xcb -xcb-xlib -bundled-xcb-input
     - name: Build
       run: |
         cd qt5
