@@ -26,6 +26,7 @@ jobs:
         ./configure -static -prefix ..\qt -opensource -nomake tests -confirm-license -nomake examples -release
     - name: Build
       run: |
+        cd qt5
         make -j3
         make install
     - name: Pack
