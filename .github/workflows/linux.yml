@@ -16,7 +16,6 @@ jobs:
         cd qt5
         git clone -b kde/5.15 https://invent.kde.org/qt/qt/qtbase.git --depth=1 --recursive
         git clone -b kde/5.15 https://invent.kde.org/qt/qt/qtsvg.git --depth=1 --recursive
-        git clone -b kde/5.15 https://invent.kde.org/qt/qt/qtsystems.git --depth=1 --recursive
     - name : Get dependenies
       run : |
         sudo apt install libgl1-mesa-dev
@@ -24,13 +23,11 @@ jobs:
     - name: Configure
       run: |
         cd qt5
-        ./configure -static -prefix ..\qt -opensource -nomake tests -confirm-license -nomake examples -skip qtwebengine -skip qtandroidextras -skip qt3d -skip qtcanvas3d -skip qtcharts -skip qtconnectivity -skip qtdatavis3d  -skip qtgamepad -skip qtsensors -skip qtserialbus -skip qtserialport -skip qtspeech -skip qtwebchannel -skip qtwebengine -skip qtwebsockets -skip qtwebview -skip qtvirtualkeyboard -skip qtdeclarative -release
+        ./configure -static -prefix ..\qt -opensource -nomake tests -confirm-license -nomake examples -release
     - name: Build
       run: |
-        make module-qtbase
-        make modult-qtsvg
-        make module-qtbase-install_subtargets
-        make module-qtsvg-install_subtargets
+        make -j3
+        make install
     - name: Pack
       run: |
         tar czvf .\qt\ qt.tar.gz
