@@ -12,17 +12,22 @@ jobs:
     steps:
     - name: Get Qt 5 Patched
       run : |
-        git clone -b kde/5.15 https://invent.kde.org/qt/qt/qt5.git --recursive --depth=1 
+        git clone -b kde/5.15 https://invent.kde.org/qt/qt/qt5.git --depth=1
+        cd qt5
+        git clone -b kde/5.15 https://invent.kde.org/qt/qt/qtbase.git --depth=1 --recursive
+        git clone -b kde/5.15 https://invent.kde.org/qt/qt/qtsvg.git --depth=1 --recursive
+        git clone -b kde/5.15 https://invent.kde.org/qt/qt/qtactiveqt.git --depth=1 --recursive
     - uses: ilammy/msvc-dev-cmd@v1
     - name: Configure
       run: |
         cd qt5
-        ./configure -prefix ..\qt -opensource -nomake tests -confirm-license -nomake examples -platform win32-msvc -skip qtwebengine -skip qtandroidextras -skip qt3d -skip qtcanvas3d -skip qtcharts -skip qtconnectivity -skip qtdatavis3d  -skip qtgamepad -skip qtsensors -skip qtserialbus -skip qtserialport -skip qtspeech -skip qtwebchannel -skip qtwebengine -skip qtwebsockets -skip qtwebview -skip qtvirtualkeyboard -skip qtdeclarative -opengl desktop
+        ./configure -prefix ..\qt -opensource -nomake tests -confirm-license -nomake examples -platform win32-msvc
     - name: Build
       run: |
         choco install jom
         cd qt5
         jom 
+        jom install 
     - name: Pack
       shell: pwsh
       run: |
