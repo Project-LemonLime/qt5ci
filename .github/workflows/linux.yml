@@ -12,7 +12,15 @@ jobs:
     steps:
     - name: Get Qt 5 Patched
       run : |
-        git clone -b kde/5.15 https://invent.kde.org/qt/qt/qt5.git --recursive --depth=1
+        git clone -b kde/5.15 https://invent.kde.org/qt/qt/qt5.git --depth=1
+        cd qt5
+        git clone -b kde/5.15 https://invent.kde.org/qt/qt/qtbase.git --depth=1 --recursive
+        git clone -b kde/5.15 https://invent.kde.org/qt/qt/qtsvg.git --depth=1 --recursive
+        git clone -b kde/5.15 https://invent.kde.org/qt/qt/qtsystems.git --depth=1 --recursive
+    - name : Get dependenies
+      run : |
+        sudo apt install libgl1-mesa-dev
+        sudo apt install libglu1-mesa-dev
     - name: Configure
       run: |
         cd qt5
