@@ -16,6 +16,7 @@ jobs:
         cd qt5
         git clone -b kde/5.15 https://invent.kde.org/qt/qt/qtbase.git --depth=1 --recursive
         git clone -b kde/5.15 https://invent.kde.org/qt/qt/qtsvg.git --depth=1 --recursive
+        git clone -b kde/5.15 https://invent.kde.org/qt/qt/qttools.git --depth=1 --recursive
     - name : Get dependenies
       run : |
         sudo apt install -y libgl1-mesa-dev libglu1-mesa-dev
@@ -35,4 +36,5 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v2.2.2
       with:
+        name: qt-5.15.3-kde-static-linux
         path: qt.tar.gz
