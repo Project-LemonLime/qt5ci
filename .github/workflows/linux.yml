@@ -2,7 +2,8 @@ name: Linux
 
 on:
   workflow_dispatch:
-    
+  schedule:
+    - cron: 0 0 */7 * *
 
 jobs:
   build:
@@ -40,11 +41,11 @@ jobs:
         path: qt.tar.gz
         
     - name: Upload Release
-      if: startsWith(github.event.ref, 'refs/tags/')
+      #if: startsWith(github.event.ref, 'refs/tags/')
       uses: svenstaro/upload-release-action@v1-release
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: ./qt.tar.gz
         asset_name: qt-5.15.3-kde-static-linux.tar.gz
-        tag: ${{ github.ref }}
+        tag: refs/tags/release
         overwrite: true
