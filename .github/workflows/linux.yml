@@ -38,3 +38,13 @@ jobs:
       with:
         name: qt-5.15.3-kde-static-linux
         path: qt.tar.gz
+        
+    - name: Upload Release
+      if: startsWith(github.event.ref, 'refs/tags/')
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ./qt.tar.gz
+        asset_name: qt-5.15.3-kde-static-linux.tar.gz
+        tag: ${{ github.ref }}
+        overwrite: true
