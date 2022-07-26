@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-18.04
 
     steps:
+    - name: Get CPU Info
+      run : cat /proc/cpuinfo
     - name: Get Qt 5 Patched
       run : |
         git clone -b kde/5.15 https://invent.kde.org/qt/qt/qt5.git --depth=1
