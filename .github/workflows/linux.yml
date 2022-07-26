@@ -19,6 +19,7 @@ jobs:
         git clone -b kde/5.15 https://invent.kde.org/qt/qt/qtsvg.git --depth=1 --recursive
         git clone -b kde/5.15 https://invent.kde.org/qt/qt/qttools.git --depth=1 --recursive
         git clone -b kde/5.15 https://invent.kde.org/qt/qt/qtimageformats.git --depth=1 --recursive
+        git clone -b kde/5.15 https://invent.kde.org/qt/qt/qttranslations.git --depth=1 --recursive
     - name : Get dependenies
       run : |
         sudo apt install -y libgl1-mesa-dev libglu1-mesa-dev
