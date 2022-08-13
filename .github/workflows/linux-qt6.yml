@@ -1,0 +1,54 @@
+name: Linux Qt 6
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 0 0 */7 * *
+
+jobs:
+  build:
+
+    runs-on: ubuntu-18.04
+
+    steps:
+    - name: Get CPU Info
+      run : cat /proc/cpuinfo
+    - name: Get Qt 6
+      run : |
+        git clone -b 6.3 https://code.qt.io/qt/qt5 --depth=1
+        cd qt5
+        git clone -b 6.3 https://code.qt.io/qt/qtbase.git --depth=1 --recursive
+        git clone -b 6.3 https://code.qt.io/qt/qtsvg.git --depth=1 --recursive
+        git clone -b 6.3 https://code.qt.io/qt/qttools.git --depth=1 --recursive
+        git clone -b 6.3 https://code.qt.io/qt/qtimageformats.git --depth=1 --recursive
+        git clone -b 6.3 https://code.qt.io/qt/qttranslations.git --depth=1 --recursive
+    - name : Get dependenies
+      run : |
+        sudo apt install -y libgl1-mesa-dev libglu1-mesa-dev
+        sudo apt install -y libfontconfig1-dev libfreetype6-dev libx11-dev libx11-xcb-dev libxext-dev libxfixes-dev libxi-dev libxrender-dev libxcb1-dev libxcb-glx0-dev libxcb-keysyms1-dev libxcb-image0-dev libxcb-shm0-dev libxcb-icccm4-dev libxcb-sync0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-randr0-dev libxcb-render-util0-dev  libxcb-xinerama0-dev libxkbcommon-dev libxkbcommon-x11-dev
+    - name: Configure
+      run: |
+        cd qt5
+        ./configure -static -prefix ../qt -opensource -confirm-license -release -no-icu -xcb -xcb-xlib -bundled-xcb-xinput
+    - name: Build
+      run: |
+        cd qt5
+        ninja install
+    - name: Pack
+      run: |
+        tar -czvf qt.tar.gz qt
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2.2.2
+      with:
+        name: qt-6.3-kde-static-linux
+        path: qt.tar.gz
+        
+    - name: Upload Release
+      #if: startsWith(github.event.ref, 'refs/tags/')
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ./qt.tar.gz
+        asset_name: qt-6.3-kde-static-linux.tar.gz
+        tag: refs/tags/release
+        overwrite: true
