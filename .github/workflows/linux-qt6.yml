@@ -20,7 +20,6 @@ jobs:
         git clone -b 6.3 https://code.qt.io/qt/qtbase.git --depth=1 --recursive
         git clone -b 6.3 https://code.qt.io/qt/qtsvg.git --depth=1 --recursive
         git clone -b 6.3 https://code.qt.io/qt/qttools.git --depth=1 --recursive
-        git clone -b 6.3 https://code.qt.io/qt/qtimageformats.git --depth=1 --recursive
         git clone -b 6.3 https://code.qt.io/qt/qttranslations.git --depth=1 --recursive
     - name : Get dependenies
       run : |
