@@ -28,7 +28,7 @@ jobs:
     - name: Configure
       run: |
         cd qt5
-        ./configure -static -prefix ../qt -opensource -confirm-license -release -no-icu -xcb -xcb-xlib -bundled-xcb-xinput
+        ./configure -static -prefix ../qt -opensource -confirm-license -release -no-icu -xcb -xcb-xlib -bundled-xcb-xinput -system-zstd
     - name: Build
       run: |
         cd qt5
