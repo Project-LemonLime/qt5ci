@@ -52,5 +52,5 @@ jobs:
         asset_name: qt-6.3-kde-static-linux.tar.gz
         tag: refs/tags/release
         overwrite: true
-    - uses: mxschmitt/action-tmate
+    - uses: mxschmitt/action-tmate@v3
       if: ${{ failure() }}
