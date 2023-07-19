@@ -26,10 +26,20 @@ jobs:
       run : |
         sudo apt install -y libgl1-mesa-dev libglu1-mesa-dev
         sudo apt install -y libfontconfig1-dev libfreetype6-dev libx11-dev libx11-xcb-dev libxext-dev libxfixes-dev libxi-dev libxrender-dev libxcb1-dev libxcb-glx0-dev libxcb-keysyms1-dev libxcb-image0-dev libxcb-shm0-dev libxcb-icccm4-dev libxcb-sync0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-randr0-dev libxcb-render-util0-dev  libxcb-xinerama0-dev libxkbcommon-dev libxkbcommon-x11-dev
+    - name : Get time
+      run : echo "now=`date +%s`" >> $GITHUB_OUTPUT
+    - name: Cache ccache
+      id: qt-cccahe
+      uses: actions/cache@v3
+      with:
+        path: ~/.ccache
+        key: ${{ runner.os }}-build-qt5-${{ needs.build.outputs.now }}
+        restore-keys: |
+            ${{ runner.os }}-build-qt5-
     - name: Configure
       run: |
         cd qt5
-        ./configure -static -prefix ../qt -opensource -nomake tests -confirm-license -nomake examples -release -no-icu -xcb -xcb-xlib -bundled-xcb-xinput
+        ./configure -static -prefix ../qt -opensource -nomake tests -confirm-license -nomake examples -release -no-icu -xcb -xcb-xlib -bundled-xcb-xinput -ccache
     - name: Build
       run: |
         cd qt5
@@ -38,6 +48,7 @@ jobs:
     - name: Pack
       run: |
         tar -czvf qt.tar.gz qt
+        tar -cvf qt-ccache.tar .ccache
     - name: Upload artifact
       uses: actions/upload-artifact@v2.2.2
       with:
