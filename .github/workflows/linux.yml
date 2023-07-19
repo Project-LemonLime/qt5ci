@@ -10,7 +10,7 @@ jobs:
 
     runs-on: ubuntu-20.04
     env:
-      CCACHE_DIR : ${{ env.GITHUB_WORKSPACE }}/.ccache
+      CCACHE_DIR : ${{ github.workspace }}/.ccache
     steps:
     - name: Get CPU Info
       run : cat /proc/cpuinfo
@@ -34,7 +34,7 @@ jobs:
       id: qt-ccahe
       uses: actions/cache@v3
       with:
-        path: ${{ env.GITHUB_WORKSPACE }}/.ccache
+        path: ${{ github.workspace }}/.ccache
         key: ${{ runner.os }}-build-qt5-${{ steps.time.outputs.now }}
         restore-keys: |
             ${{ runner.os }}-build-qt5-
