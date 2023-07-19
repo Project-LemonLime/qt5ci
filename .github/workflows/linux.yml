@@ -9,7 +9,8 @@ jobs:
   build:
 
     runs-on: ubuntu-20.04
-
+    env:
+      CCACHE_DIR : ${{ env.GITHUB_WORKSPACE }}/.ccache
     steps:
     - name: Get CPU Info
       run : cat /proc/cpuinfo
@@ -30,10 +31,10 @@ jobs:
       id : time
       run : echo "now=`date +%s`" >> $GITHUB_OUTPUT
     - name: Cache ccache
-      id: qt-cccahe
+      id: qt-ccahe
       uses: actions/cache@v3
       with:
-        path: ~/.ccache
+        path: ${{ env.GITHUB_WORKSPACE }}/.ccache
         key: ${{ runner.os }}-build-qt5-${{ steps.time.outputs.now }}
         restore-keys: |
             ${{ runner.os }}-build-qt5-
@@ -49,7 +50,6 @@ jobs:
     - name: Pack
       run: |
         tar -czvf qt.tar.gz qt
-        tar -cvf qt-ccache.tar .ccache
     - name: Upload artifact
       uses: actions/upload-artifact@v2.2.2
       with:
