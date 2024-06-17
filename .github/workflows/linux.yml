@@ -44,7 +44,7 @@ jobs:
     - name: Configure
       run: |
         cd qt5
-        ./configure -static -prefix ../qt -opensource -nomake tests -confirm-license -nomake examples -release -no-icu -xcb -xcb-xlib -bundled-xcb-xinput -ccache -qt-libpng -qt-libjpeg
+        ./configure -static -prefix ../qt -opensource -nomake tests -confirm-license -nomake examples -release -no-icu -xcb -xcb-xlib -bundled-xcb-xinput -ccache
     - name: Build
       run: |
         cd qt5
