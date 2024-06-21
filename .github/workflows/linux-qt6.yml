@@ -15,32 +15,45 @@ jobs:
       run : cat /proc/cpuinfo
     - name: Get Qt 6
       run : |
-        git clone -b 6.3 https://code.qt.io/qt/qt5 --depth=1
-        cd qt5
-        git clone -b 6.3 https://code.qt.io/qt/qtbase.git --depth=1 --recursive
-        git clone -b 6.3 https://code.qt.io/qt/qtsvg.git --depth=1 --recursive
-        git clone -b 6.3 https://code.qt.io/qt/qttools.git --depth=1 --recursive
-        git clone -b 6.3 https://code.qt.io/qt/qttranslations.git --depth=1 --recursive
+        mkdir qt6
+        git clone https://code.qt.io/qt/qt5.git src
+        cd src
+        git switch 6.7
+        perl init-repository  --module-subset=qtbase,qtsvg,qttools,qtimageformats,qttranslations
     - name : Get dependenies
       run : |
         sudo apt upgrade -y cmake ninja-build gcc g++
         sudo apt install -y libgl1-mesa-dev libglu1-mesa-dev
         sudo apt install -y libfontconfig1-dev libfreetype6-dev libx11-dev libx11-xcb-dev libxext-dev libxfixes-dev libxi-dev libxrender-dev libxcb1-dev libxcb-glx0-dev libxcb-keysyms1-dev libxcb-image0-dev libxcb-shm0-dev libxcb-icccm4-dev libxcb-sync0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-randr0-dev libxcb-render-util0-dev  libxcb-xinerama0-dev libxkbcommon-dev libxkbcommon-x11-dev
+    - name : Get time
+      id : time
+      run : echo "now=`date +%s`" >> $GITHUB_OUTPUT
+    - name: Cache ccache
+      id: qt-ccahe
+      uses: actions/cache@v3
+      with:
+        path: ${{ github.workspace }}/.ccache
+        key: ${{ runner.os }}-build-qt6-${{ steps.time.outputs.now }}
+        restore-keys: |
+            ${{ runner.os }}-build-qt6-
     - name: Configure
       run: |
-        cd qt5
-        ./configure -static -prefix ../qt -opensource -confirm-license -release -no-icu -xcb -xcb-xlib -bundled-xcb-xinput
+        cd qt6 
+        mkdir build
+        mkdir bin
+        cd build
+        ../src/configure -static -prefix ../bin -cmake-generator Ninja -qt-tiff -qt-webp -qt-libpng -qt-libjpeg -release -no-icu -xcb -xcb-xlib -bundled-xcb-xinput
     - name: Build
       run: |
-        cd qt5
+        cd qt6/build
         ninja install
     - name: Pack
       run: |
-        tar -czvf qt.tar.gz qt
+        tar -czvf qt.tar.gz qt6/bin
     - name: Upload artifact
-      uses: actions/upload-artifact@v2.2.2
+      uses: actions/upload-artifact@v4
       with:
-        name: qt-6.3-kde-static-linux
+        name: qt-6.7-static-linux
         path: qt.tar.gz
         
     - name: Upload Release
@@ -49,7 +62,7 @@ jobs:
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: ./qt.tar.gz
-        asset_name: qt-6.3-kde-static-linux.tar.gz
+        asset_name: qt-6.7-static-linux.tar.gz
         tag: refs/tags/release
         overwrite: true
     - uses: mxschmitt/action-tmate@v3
