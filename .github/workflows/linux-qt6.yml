@@ -16,6 +16,7 @@ jobs:
     - name: Get Qt 6
       run : |
         mkdir qt6
+        cd qt6
         git clone https://code.qt.io/qt/qt5.git src
         cd src
         git switch 6.7
