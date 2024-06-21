@@ -43,7 +43,7 @@ jobs:
         mkdir build
         mkdir bin
         cd build
-        ../src/configure -static -prefix ../bin -cmake-generator Ninja -qt-tiff -qt-webp -qt-libpng -qt-libjpeg -release -no-icu
+        ../src/configure -static -prefix ../bin -cmake-generator Ninja -qt-tiff -qt-webp -qt-libpng -qt-libjpeg -release -no-icu -ccache
     - name: Build
       run: |
         cd qt6/build
