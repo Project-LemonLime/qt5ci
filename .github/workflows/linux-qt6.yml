@@ -9,7 +9,8 @@ jobs:
   build:
 
     runs-on: ubuntu-20.04
-
+    env:
+      CCACHE_DIR : ${{ github.workspace }}/.ccache
     steps:
     - name: Get CPU Info
       run : cat /proc/cpuinfo
@@ -26,13 +27,13 @@ jobs:
         sudo apt update
         sudo apt upgrade -y cmake ninja-build gcc g++
         sudo apt install -y libgl1-mesa-dev libglu1-mesa-dev libclang-10-dev ccache libclang-12-dev
-        sudo apt install -y libfontconfig1-dev libfreetype6-dev libx11-dev libx11-xcb-dev libxext-dev libxfixes-dev libxi-dev libxrender-dev libxcb1-dev libxcb-glx0-dev libxcb-keysyms1-dev libxcb-image0-dev libxcb-shm0-dev libxcb-icccm4-dev libxcb-sync0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-randr0-dev libxcb-render-util0-dev  libxcb-xinerama0-dev libxkbcommon-dev libxkbcommon-x11-dev
+        sudo apt install -y libfontconfig1-dev libfreetype6-dev libx11-dev libx11-xcb-dev libxext-dev libxfixes-dev libxi-dev libxrender-dev libxcb1-dev libxcb-glx0-dev libxcb-keysyms1-dev libxcb-image0-dev libxcb-shm0-dev libxcb-icccm4-dev libxcb-sync0-dev libxcb-xfixes0-dev libxcb-shape0-dev libxcb-randr0-dev libxcb-render-util0-dev  libxcb-xinerama0-dev libxkbcommon-dev libxkbcommon-x11-dev libxcb-devel libxkbcommon-devel xcb-util-devel xcb-util-image-devel xcb-util-keysyms-devel xcb-util-renderutil-devel xcb-util-wm-devel mesa-libGL-devel
     - name : Get time
       id : time
       run : echo "now=`date +%s`" >> $GITHUB_OUTPUT
     - name: Cache ccache
       id: qt-ccahe
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ${{ github.workspace }}/.ccache
         key: ${{ runner.os }}-build-qt6-${{ steps.time.outputs.now }}
@@ -60,7 +61,7 @@ jobs:
         
     - name: Upload Release
       #if: startsWith(github.event.ref, 'refs/tags/')
-      uses: svenstaro/upload-release-action@v1-release
+      uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: ./qt.tar.gz
