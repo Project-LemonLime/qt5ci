@@ -54,7 +54,7 @@ jobs:
       run: |
         tar -czvf qt.tar.gz qt
     - name: Upload artifact
-      uses: actions/upload-artifact@v2.2.2
+      uses: actions/upload-artifact@v4
       with:
         name: qt-5.15.3-kde-static-linux
         path: qt.tar.gz
