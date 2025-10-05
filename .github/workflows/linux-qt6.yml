@@ -12,6 +12,7 @@ jobs:
     container: ubuntu:20.04
     env:
       CCACHE_DIR : ${{ github.workspace }}/.ccache
+      TZ: Asia/Shanghai
     steps:
     - name: Get CPU Info
       run : cat /proc/cpuinfo
