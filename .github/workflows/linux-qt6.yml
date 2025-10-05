@@ -13,6 +13,7 @@ jobs:
     env:
       CCACHE_DIR : ${{ github.workspace }}/.ccache
       TZ: Asia/Shanghai
+      DEBIAN_FRONTEND : noninteractive 
     steps:
     - name: Get CPU Info
       run : cat /proc/cpuinfo
