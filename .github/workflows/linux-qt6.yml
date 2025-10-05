@@ -20,7 +20,7 @@ jobs:
     - name: Install Build Essentials
       run : |
         apt update
-        apt install software-properties-common
+        apt install -y software-properties-common
         add-apt-repository ppa:savoury1/build-tools
         apt update
         apt upgrade -y
