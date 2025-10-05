@@ -20,7 +20,7 @@ jobs:
         cd qt6
         git clone https://code.qt.io/qt/qt5.git src
         cd src
-        git switch 6.7
+        git switch 6.9
         perl init-repository  --module-subset=qtbase,qtsvg,qttools,qtimageformats,qttranslations
     - name : Get dependenies
       run : |
@@ -57,7 +57,7 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: qt-6.7-static-linux
+        name: qt-6.9-static-linux
         path: qt.tar.gz
         
     - name: Upload Release
@@ -66,7 +66,7 @@ jobs:
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: ./qt.tar.gz
-        asset_name: qt-6.7-static-linux.tar.gz
+        asset_name: qt-6.9-static-linux.tar.gz
         tag: refs/tags/release
         overwrite: true
     - uses: mxschmitt/action-tmate@v3
