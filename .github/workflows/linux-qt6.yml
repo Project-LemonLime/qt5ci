@@ -19,6 +19,8 @@ jobs:
       run : cat /proc/cpuinfo
     - name: Install Build Essentials
       run : |
+        apt update
+        apt install software-properties-common
         add-apt-repository ppa:savoury1/build-tools
         apt update
         apt upgrade -y
