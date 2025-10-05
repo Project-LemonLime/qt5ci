@@ -15,6 +15,10 @@ jobs:
     steps:
     - name: Get CPU Info
       run : cat /proc/cpuinfo
+    - name: Install Build Essentials
+      run : |
+        sudo apt update
+        sudo apt install -y build-essential git perl
     - name: Get Qt 6
       run : |
         mkdir qt6
