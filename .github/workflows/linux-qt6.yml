@@ -19,6 +19,7 @@ jobs:
       run : cat /proc/cpuinfo
     - name: Install Build Essentials
       run : |
+        add-apt-repository ppa:savoury1/build-tools
         apt update
         apt upgrade -y
         apt install -y build-essential git perl cmake ninja-build
