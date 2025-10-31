@@ -30,7 +30,7 @@ jobs:
         git clone https://code.qt.io/qt/qt5.git src
         cd src
         git switch 6.9
-        perl init-repository  --module-subset=qtbase,qtsvg,qttools,qtimageformats,qttranslations,qtwayland
+        perl init-repository  --module-subset=qtbase,qtsvg,qttools,qtimageformats,qttranslations
     - name : Get dependenies
       run : |
         apt update
@@ -54,7 +54,7 @@ jobs:
         mkdir build
         mkdir bin
         cd build
-        ../src/configure -static -prefix ../bin -cmake-generator Ninja -qt-tiff -qt-webp -qt-libpng -qt-libjpeg -release -no-icu -ccache -skip qtdeclarative -qpa xcb;wayland -xcb-xlib -xcb
+        ../src/configure -static -prefix ../bin -cmake-generator Ninja -qt-tiff -qt-webp -qt-libpng -qt-libjpeg -release -no-icu -ccache -skip qtdeclarative -qpa xcb -xcb-xlib -xcb
     - name: Build
       run: |
         cd qt6/build
